@@ -1,0 +1,386 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Atkinson+Hyperlegible:wght@400;700&display=swap');
+
+:root {
+--pure-black: #000000;
+--deep-indigo: #2a1248;
+--soft-lavender: #b8a8d0;
+--rose-pink: #e895ab;
+--mystic-rose: #c75b7a;
+--warm-gold: #d4a574;
+--sage-green: #9caf88;
+--deep-burgundy: #6b1f3a;
+--ethereal-glow: #d4b5d9;
+--shadow-violet: #1a0d2e;
+--text-primary: #e8dff5;
+--primary-color: var(--rose-pink);
+}
+
+/* Pure black background */
+body {
+font-family: "Atkinson Hyperlegible", sans-serif;
+font-style: normal;
+font-size: 16px;
+line-height: 1.7;
+color: var(--text-primary);
+background: var(--pure-black);
+background-attachment: fixed;
+}
+
+/* Mystical glow effect for main content */
+#quarto-content {
+background: rgba(0, 0, 0, 0.4);
+backdrop-filter: blur(10px);
+border: 1px solid rgba(200, 160, 200, 0.15);
+box-shadow: 0 8px 32px rgba(200, 160, 200, 0.1);
+padding: 2rem;
+border-radius: 12px;
+}
+
+/* ------------------------------------------- Titles ----------------- */
+h1 {
+margin-block-start: 20px;
+font-family: "Montserrat", sans-serif;
+font-size: 2.5rem;
+font-weight: 800;
+letter-spacing: 0.02em;
+color: var(--rose-pink);
+text-shadow: 0 0 20px rgba(232, 149, 171, 0.4);
+}
+@media (min-width: 1024px) {
+h1 {
+font-size: 3.5rem;
+}
+}
+h2 {
+margin-top: 190px !important;
+margin-block-start: 20px;
+font-family: "Montserrat", sans-serif;
+border-bottom: 2px solid var(--mystic-rose);
+padding-bottom: 0.5rem;
+font-size: 2rem;
+font-weight: 700;
+letter-spacing: 0.02em;
+color: var(--soft-lavender);
+text-shadow: 0 0 12px rgba(184, 168, 208, 0.3);
+transition: all 0.3s ease;
+}
+h2:hover {
+color: var(--rose-pink);
+text-shadow: 0 0 16px rgba(232, 149, 171, 0.5);
+}
+h2:first-of-type {
+margin-top: 0;
+}
+h3 {
+margin-top: 2rem;
+margin-block-start: 20px;
+font-family: "Montserrat", sans-serif;
+font-size: 1.5rem;
+font-weight: 600;
+letter-spacing: 0.02em;
+color: var(--ethereal-glow);
+text-shadow: 0 0 8px rgba(212, 181, 217, 0.3);
+}
+
+/* ------------------------------------------- Text ----------------- */
+p {
+line-height: 28px;
+color: var(--text-primary);
+}
+p:not(:first-child) {
+margin-top: 12px;
+}
+a {
+font-weight: 500;
+color: var(--rose-pink);
+text-decoration: none;
+border-bottom: 1px solid transparent;
+transition: all 0.3s ease;
+position: relative;
+}
+a:hover {
+color: var(--warm-gold);
+border-bottom: 1px solid var(--warm-gold);
+text-shadow: 0 0 8px rgba(212, 165, 116, 0.4);
+}
+
+/* ------------------------------------------- Lists ----------------- */
+ul {
+margin: 1.5rem 0;
+margin-left: 1.5rem;
+list-style-type: none;
+}
+ul > li {
+margin-top: 0.5rem;
+position: relative;
+padding-left: 1.5rem;
+}
+ul > li::before {
+content: "";
+position: absolute;
+left: 0;
+width: 12px;
+height: 12px;
+background-image: url("Flowers-Rose-grey.png");
+background-size: contain;
+background-repeat: no-repeat;
+background-position: center;
+}
+
+/* ------------------------------------------- Code blocks ----------------- */
+code {
+font-family: 'Courier New', monospace;
+background-color: rgba(42, 18, 72, 0.4);
+padding: 0.2rem 0.4rem;
+border-radius: 3px;
+font-size: 0.9em;
+color: var(--ethereal-glow);
+border: 1px solid rgba(200, 160, 200, 0.2);
+}
+
+/* ------------------------------------------- Buttons used for tabs ----------------- */
+.nav-pills .nav-link {
+color: var(--rose-pink);
+background-color: rgba(0, 0, 0, 0.5);
+border: 1px solid var(--mystic-rose);
+border-radius: 8px;
+font-family: "Montserrat", sans-serif;
+transition: all 0.3s ease;
+}
+.nav-pills .nav-link.active {
+color: var(--pure-black);
+background: linear-gradient(135deg, var(--rose-pink), var(--ethereal-glow));
+box-shadow: 0 0 16px rgba(232, 149, 171, 0.4);
+}
+.nav-pills .nav-link:hover {
+background-color: rgba(199, 91, 122, 0.2);
+box-shadow: 0 0 12px rgba(199, 91, 122, 0.3);
+}
+.nav-pills .nav-link {
+padding: 5px;
+margin-right: 4px;
+}
+ul.nav.nav-tabs {
+margin: 0px;
+border: none;
+}
+.tab-content {
+border: none;
+margin-top: 10px;
+padding: 0px;
+}
+
+/* ------------------------------------------- Table of content ----------------- */
+.sidebar nav[role="doc-toc"] ul > li > a.active,
+.sidebar nav[role="doc-toc"] ul > li > ul > li > a.active {
+border-left: 3px solid var(--mystic-rose);
+color: var(--rose-pink) !important;
+font-weight: 600;
+text-shadow: 0 0 8px rgba(232, 149, 171, 0.3);
+}
+.sidebar nav[role="doc-toc"] ul > li > a {
+color: #b0a0c0;
+transition: all 0.3s ease;
+}
+.sidebar nav[role="doc-toc"] ul > li > a:hover {
+color: var(--soft-lavender);
+text-shadow: 0 0 8px rgba(184, 168, 208, 0.3);
+}
+#TOC {
+top: 50%;
+position: relative;
+transform: translate(0, -50%);
+background: rgba(0, 0, 0, 0.6);
+padding: 1rem;
+border-radius: 8px;
+border: 1px solid rgba(200, 160, 200, 0.15);
+}
+
+/* ------------------------------------------- Horizontal separator ----------------- */
+hr {
+margin-top: 23px;
+margin-bottom: 23px;
+border: 0;
+border-top: 2px solid var(--mystic-rose);
+box-shadow: 0 0 8px rgba(199, 91, 122, 0.4);
+width: 0;
+animation: separator-width 2s ease-in-out forwards;
+}
+@keyframes separator-width {
+0% {
+width: 0;
+}
+100% {
+width: 200px;
+}
+}
+
+/* ------------------------------------------- Footer ----------------- */
+.footer-container {
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+padding-top: 40px;
+padding-bottom: 40px;
+border-top: 1px solid rgba(199, 91, 122, 0.3);
+}
+
+/* ------------------------------------------- DT table: smaller font ----------------- */
+table.dataTable tbody th,
+table.dataTable tbody td {
+padding: 6px 10px;
+font-size: 12px;
+color: var(--text-primary);
+background-color: rgba(0, 0, 0, 0.4);
+}
+table.dataTable thead th {
+background: linear-gradient(135deg, var(--deep-indigo), var(--shadow-violet));
+color: var(--rose-pink);
+border-bottom: 2px solid var(--mystic-rose);
+}
+
+/* ------------------------------------------- Callout ----------------- */
+div.callout.callout {
+border: none;
+padding: 0.8em 1em;
+border-left: var(--mystic-rose) 4px solid;
+background: linear-gradient(90deg, rgba(199, 91, 122, 0.15) 0%, rgba(42, 18, 72, 0.1) 100%);
+border-radius: 8px;
+box-shadow: 0 4px 15px rgba(199, 91, 122, 0.2);
+}
+
+button {
+color: var(--rose-pink);
+background: rgba(0, 0, 0, 0.5);
+border: var(--mystic-rose) 2px solid;
+border-radius: 8px;
+font-family: "Montserrat", sans-serif;
+padding: 0.5rem 1rem;
+transition: all 0.3s ease;
+cursor: pointer;
+}
+button:hover {
+background: linear-gradient(135deg, var(--rose-pink), var(--ethereal-glow));
+color: var(--pure-black);
+box-shadow: 0 0 16px rgba(232, 149, 171, 0.5);
+transform: translateY(-2px);
+}
+
+.grey-section {
+background: linear-gradient(135deg, rgba(42, 18, 72, 0.2) 0%, rgba(0, 0, 0, 0.3) 100%);
+padding-top: 40px;
+padding-bottom: 40px;
+margin-top: 20px;
+margin-bottom: 20px;
+border-radius: 12px;
+border: 1px solid rgba(200, 160, 200, 0.15);
+box-shadow: 0 4px 20px rgba(200, 160, 200, 0.1);
+}
+
+/* ------------------------------------------- Custom accent sections ----------------- */
+.accent-section {
+background: linear-gradient(135deg, rgba(199, 91, 122, 0.15) 0%, rgba(42, 18, 72, 0.15) 100%);
+padding: 2rem;
+border-left: 4px solid var(--rose-pink);
+margin: 2rem 0;
+border-radius: 8px;
+box-shadow: 0 8px 32px rgba(200, 160, 200, 0.12);
+}
+
+/* ------------------------------------------- CRITICAL: Plot/figure transparency ----------------- */
+/* Remove all backgrounds from figure containers */
+figure,
+.quarto-figure,
+.quarto-figure-center,
+.figure,
+div.quarto-figure,
+div.cell-output-display {
+margin: 2rem 0;
+text-align: center;
+padding: 0 !important;
+background: transparent !important;
+background-color: transparent !important;
+border: none !important;
+}
+
+/* Force transparency on all images within figures */
+figure img,
+.quarto-figure img,
+.quarto-figure-center img,
+img[src*=".png"],
+img[src*=".svg"] {
+background: transparent !important;
+background-color: transparent !important;
+mix-blend-mode: screen;
+border-radius: 8px;
+max-width: 100%;
+height: auto;
+}
+
+/* Handle R plot outputs specifically */
+.cell-output-display img,
+.cell-output img {
+background: transparent !important;
+background-color: transparent !important;
+}
+
+/* Remove any default Quarto figure backgrounds */
+.quarto-figure > figure {
+background: transparent !important;
+}
+
+figcaption {
+font-family: "Montserrat", sans-serif;
+color: var(--soft-lavender);
+font-size: 0.9rem;
+margin-top: 0.5rem;
+font-style: italic;
+background: transparent !important;
+}
+
+/* ------------------------------------------- Mystical enhancements ----------------- */
+/* Subtle animation for background */
+@keyframes mystical-pulse {
+0%, 100% {
+opacity: 0.05;
+}
+50% {
+opacity: 0.12;
+}
+}
+
+body::before {
+content: "";
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: radial-gradient(circle at 50% 50%, rgba(232, 149, 171, 0.08) 0%, transparent 70%);
+animation: mystical-pulse 8s ease-in-out infinite;
+pointer-events: none;
+z-index: -1;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+width: 12px;
+}
+::-webkit-scrollbar-track {
+background: var(--pure-black);
+}
+::-webkit-scrollbar-thumb {
+background: linear-gradient(180deg, var(--rose-pink), var(--mystic-rose));
+border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover {
+background: linear-gradient(180deg, var(--ethereal-glow), var(--rose-pink));
+}
+
+/* Title block specific enhancements */
+#title-block-header {
+background: rgba(0, 0, 0, 0.95);
+border-bottom: 3px solid var(--mystic-rose);
+box-shadow: 0 10px 40px rgba(199, 91, 122, 0.25);
+}

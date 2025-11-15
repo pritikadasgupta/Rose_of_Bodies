@@ -1,0 +1,283 @@
+---
+title: "Rose Patterns of Planetary Conjunctions"
+format:
+  lumo-html: 
+    primary-color: "black"
+    is-particlejs-enabled: true
+    self-contained: true
+resources:
+  - particles.json
+  - particles.min.js
+  - Flowers-Rose-grey.png
+author: Golapri Rose
+date: last-modified
+knitr:
+  opts_chunk:
+    dev: svg
+    dev.args: { bg: "transparent" }
+editor: 
+  markdown: 
+    wrap: 72
+---
+
+## Introduction
+
+I think it's fascinating to watch geometrical patterns emerge from celestial mechanics. Several years ago, I saw online that there was a lot of art that depicted the "rose-like" pattern tracking Venus's apparent motion relative to Earth over eight years, and it's genuinely beautiful: a perfect five-petaled rose that emerges because Venus completes about 13 orbits while Earth completes 8.
+
+I went ahead to plot this in R, and I also wondered as to whether other planetary pairs create similarly gorgeous patterns. And they absolutely do!Each one is unique based on the orbital periods and distances involved. This document is basically me geeking out about those patterns and sharing what I found.
+
+## Methodology
+
+The approach here is pretty straightforward. For any two planets, I calculate where they are in their orbits at regular time intervals, then draw connecting lines between their positions. The midpoints of those lines? That's where the magic happens - they trace out the rose pattern. 
+
+The complexity and symmetry of each pattern depends entirely on the ratio of the planets' orbital periods. Some ratios create tight, symmetric roses. Others create sprawling, intricate designs that take decades to complete. Both are cool in their own ways.
+
+```{r setup, include=FALSE}
+library(ggplot2)
+library(svglite)
+library(patchwork)
+```
+
+```{r functions}
+# Function to create a rose pattern for any two planetary bodies
+create_rose_pattern <- function(r1, r2, T1, T2, n_years, N, 
+                                color_loop = "#b8a8d0", 
+                                color_lines = "#d4b5d9",
+                                alpha_loop = 0.7,
+                                alpha_lines = 0.4,
+                                title = "") {
+  
+  t <- seq(0, n_years * T1, length.out = N)
+  theta1 <- t * 2 * pi / T1
+  theta2 <- t * 2 * pi / T2
+  
+  x1 <- r1 * cos(theta1)
+  y1 <- r1 * sin(theta1)
+  x2 <- r2 * cos(theta2)
+  y2 <- r2 * sin(theta2)
+  
+  loops <- data.frame(x = (x1 + x2) / 2, y = (y1 + y2) / 2)
+  
+  lines_df <- data.frame(
+    x = c(rbind(x1, x2)),
+    y = c(rbind(y1, y2))
+  )
+  
+  max_radius <- max(r1, r2)
+  plot_limit <- max_radius * 1.2
+  
+  p <- ggplot() +
+    geom_path(data = loops, aes(x = x, y = y), 
+              color = color_loop, alpha = alpha_loop, linewidth = 0.6) +
+    geom_path(data = lines_df, aes(x = x, y = y), 
+              color = color_lines, alpha = alpha_lines, linewidth = 0.15) +
+    geom_path(data = data.frame(t = seq(0, 2*pi, length.out = 200)), 
+              aes(x = r1 * cos(t), y = r1 * sin(t)), 
+              color = color_loop, alpha = 0.3, linewidth = 0.4) +
+    coord_fixed(ratio = 1, xlim = c(-plot_limit, plot_limit), 
+                ylim = c(-plot_limit, plot_limit)) +
+    labs(title = title) +
+    theme_void() +
+    theme(
+      panel.background = element_rect(fill = "transparent", colour = NA),
+      plot.background = element_rect(fill = "transparent", colour = NA),
+      plot.title = element_text(hjust = 0.5, size = 14, 
+                                family = "Montserrat",
+                                color = "#e895ab", face = "bold"),
+      plot.margin = margin(10, 10, 10, 10)
+    )
+  
+  return(p)
+}
+```
+
+## Rose of Venus (Earth-Venus)
+
+This is the classic one, the reason I started down this rabbit hole. The 8:13 resonance between Earth and Venus over eight years creates this incredibly symmetric five-petaled rose. It's the kind of pattern that makes you believe in cosmic harmony, even if you know better intellectually.
+
+**Orbital Parameters:**
+
+-   Earth orbital radius: 1.00 AU
+-   Venus orbital radius: 0.72 AU
+-   Earth orbital period: 365.25 days
+-   Venus orbital period: 224.7 days
+-   Observation period: 8 Earth years
+
+```{r rose-venus, fig.width=10, fig.height=10}
+re <- 1.00
+rv <- 0.72
+Te <- 365.25
+Tv <- 224.7
+
+p_venus <- create_rose_pattern(
+  r1 = re, r2 = rv, T1 = Te, T2 = Tv, 
+  n_years = 8, N = 888,
+  color_loop = "#b8a8d0", 
+  color_lines = "#d4b5d9",
+  alpha_loop = 0.7,
+  alpha_lines = 0.4,
+  title = "Rose of Venus"
+)
+print(p_venus)
+ggsave("rose_of_venus.svg", p_venus, width = 10, height = 10, 
+       bg = "transparent", device = "svg")
+ggsave("rose_of_venus.png", p_venus, width = 10, height = 10, 
+       bg = "transparent", dpi = 300)
+```
+
+## Rose of Mercury (Earth-Mercury)
+
+Mercury races around the Sun so fast that it completes roughly 4 orbits for every one of Earth's. This creates a four-petaled pattern that's tighter and more dynamic than Venus's rose. It's less symmetric, but there's something compelling about its energy.
+
+**Orbital Parameters:**
+
+-   Earth orbital radius: 1.00 AU
+-   Mercury orbital radius: 0.39 AU
+-   Earth orbital period: 365.25 days
+-   Mercury orbital period: 88.0 days
+-   Observation period: 3 Earth years
+
+```{r rose-mercury, fig.width=10, fig.height=10}
+rm <- 0.39
+Tm <- 88.0
+
+p_mercury <- create_rose_pattern(
+  r1 = re, r2 = rm, T1 = Te, T2 = Tm, 
+  n_years = 3, N = 666,
+  color_loop = "#e895ab", 
+  color_lines = "#d4b5d9",
+  alpha_loop = 0.7,
+  alpha_lines = 0.4,
+  title = "Rose of Mercury"
+)
+print(p_mercury)
+ggsave("rose_of_mercury.svg", p_mercury, width = 10, height = 10, 
+       bg = "transparent", device = "svg")
+ggsave("rose_of_mercury.png", p_mercury, width = 10, height = 10, 
+       bg = "transparent", dpi = 300)
+```
+
+## Rose of Mars (Earth-Mars)
+
+Mars takes almost twice as long to orbit the Sun as we do, which creates this interesting near-2:1 resonance. It's not as perfectly symmetric as the Venus pattern - the resonance isn't quite exact - but that imperfection creates its own kind of beauty. You need to watch it over 15 years to see the full pattern emerge.
+
+**Orbital Parameters:**
+
+-   Earth orbital radius: 1.00 AU
+-   Mars orbital radius: 1.52 AU
+-   Earth orbital period: 365.25 days
+-   Mars orbital period: 687.0 days
+-   Observation period: 15 Earth years
+
+```{r rose-mars, fig.width=10, fig.height=10}
+rma <- 1.52
+Tma <- 687.0
+
+p_mars <- create_rose_pattern(
+  r1 = re, r2 = rma, T1 = Te, T2 = Tma, 
+  n_years = 15, N = 1200,
+  color_loop = "#c75b7a", 
+  color_lines = "#e8dff5",
+  alpha_loop = 0.7,
+  alpha_lines = 0.4,
+  title = "Rose of Mars"
+)
+print(p_mars)
+ggsave("rose_of_mars.svg", p_mars, width = 10, height = 10, 
+       bg = "transparent", device = "svg")
+ggsave("rose_of_mars.png", p_mars, width = 10, height = 10, 
+       bg = "transparent", dpi = 300)
+
+```
+
+## Rose of Jupiter (Earth-Jupiter)
+
+Jupiter's 12-year orbit means this pattern unfolds slowly - you need to observe for at least 24 years to capture the full cycle. The result is this complex, many-petaled rose that reflects the dramatic difference in scale between Earth and the gas giant. It's less a flower and more a mandala.
+
+**Orbital Parameters:**
+
+-   Earth orbital radius: 1.00 AU
+-   Jupiter orbital radius: 5.20 AU
+-   Earth orbital period: 365.25 days
+-   Jupiter orbital period: 4333 days (11.86 years)
+-   Observation period: 24 Earth years
+
+```{r rose-jupiter, fig.width=10, fig.height=10}
+rj <- 5.20
+Tj <- 4333
+
+p_jupiter <- create_rose_pattern(
+  r1 = re, r2 = rj, T1 = Te, T2 = Tj, 
+  n_years = 24, N = 1500,
+  color_loop = "#d4a574", 
+  color_lines = "#e8dff5",
+  alpha_loop = 0.7,
+  alpha_lines = 0.4,
+  title = "Rose of Jupiter"
+)
+print(p_jupiter)
+ggsave("rose_of_jupiter.svg", p_jupiter, width = 10, height = 10, 
+       bg = "transparent", device = "svg")
+ggsave("rose_of_jupiter.png", p_jupiter, width = 10, height = 10, 
+       bg = "transparent", dpi = 300)
+```
+
+## Rose of Saturn (Earth-Saturn)
+
+Saturn takes 29 years to complete one orbit, which means capturing this full pattern requires patience on a generational scale. The resulting rose is intricate and sprawling, a testament to the vast distances and timescales involved in the outer solar system. This is the kind of pattern you'd need a lifetime to appreciate fully.
+
+**Orbital Parameters:**
+
+-   Earth orbital radius: 1.00 AU
+-   Saturn orbital radius: 9.54 AU
+-   Earth orbital period: 365.25 days
+-   Saturn orbital period: 10759 days (29.46 years)
+-   Observation period: 60 Earth years
+
+```{r rose-saturn, fig.width=10, fig.height=10}
+rs <- 9.54
+Ts <- 10759
+
+p_saturn <- create_rose_pattern(
+  r1 = re, r2 = rs, T1 = Te, T2 = Ts, 
+  n_years = 60, N = 2000,
+  color_loop = "#9caf88", 
+  color_lines = "#e8dff5",
+  alpha_loop = 0.7,
+  alpha_lines = 0.4,
+  title = "Rose of Saturn"
+)
+print(p_saturn)
+ggsave("rose_of_saturn.svg", p_saturn, width = 10, height = 10, 
+       bg = "transparent", device = "svg")
+ggsave("rose_of_saturn.png", p_saturn, width = 10, height = 10, 
+       bg = "transparent", dpi = 300)
+```
+
+## Comparative View
+
+Here they all are together. What strikes me looking at these side by side is how much variation there is - from Mercury's tight four-petaled burst to Saturn's sprawling complexity. Each pattern is a direct consequence of orbital mechanics, but they feel almost like different species of the same mathematical flower.
+
+```{r comparison, fig.width=16, fig.height=10}
+comparison_plot <- (p_mercury + p_venus + p_mars) / 
+                   (p_jupiter + p_saturn ) +
+  plot_annotation(
+    theme = theme(
+      plot.background = element_rect(fill = "transparent", colour = NA),
+      panel.background = element_rect(fill = "transparent", colour = NA)
+    )
+  )
+print(comparison_plot)
+ggsave("rose_comparison.png", comparison_plot, width = 16, height = 10, 
+       bg = "transparent", dpi = 300)
+```
+
+## Conclusion
+
+What I love about these patterns is how they make orbital mechanics visible in a way that's both mathematically rigorous and aesthetically satisfying. The Rose of Venus gets all the attention - and rightfully so, given that perfect 8:13 resonance - but each planetary pair has its own character. Mercury's rapid dance, Mars's near-perfect symmetry, Jupiter's patient complexity, Saturn's generational timescale - they're all different expressions of the same underlying physics.
+
+These patterns have been known for centuries, connecting geometry, astronomy, and mathematics in ways that feel almost designed. Which of course they weren't, but that's the beauty of emergent phenomena! Sometimes the universe just does beautiful things without trying.
+
+## Technical Notes
+
+The patterns are generated by calculating planetary positions at regular time intervals and connecting Earth's position to each planet's position at every timestep. The midpoint of each connecting line traces the rose shape. The number of petals and overall complexity depend on the rational approximation of the orbital period ratio - the closer to a simple fraction, the more symmetric the pattern. When the ratio is more complex or irrational, you get these endlessly intricate designs that never quite repeat.
