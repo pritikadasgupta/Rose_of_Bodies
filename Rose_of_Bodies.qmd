@@ -1,10 +1,12 @@
 ---
 title: "Rose Patterns of Planetary Conjunctions"
+project:
+  output-dir: docs
 format:
   lumo-html: 
     primary-color: "black"
     is-particlejs-enabled: true
-    self-contained: true
+    self-contained: false
 resources:
   - particles.json
   - particles.min.js
