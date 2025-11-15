@@ -45,6 +45,48 @@ By sampling the positions of two planets over time and connecting them with line
 3. Open `Rose_of_Bodies.qmd`.
 4. Click **Render** (or run in the terminal):
 
-   ```bash
+```bash
    quarto render Rose_of_Bodies.qmd
-   ```
+```
+
+5. The rendered HTML (`Rose_of_Bodies.html`) will appear in the project folder; open it in your browser.
+  
+---
+
+## How the patterns are generated (short version)
+
+- Treat each planet as moving on a circular orbit with a given radius (in AU) and orbital period (in days).
+    
+- Sample their positions at regular time steps over a specified number of years.
+    
+- For each time step, draw a line from Earth’s position to the other planet’s position.
+    
+- Plot the _midpoints_ of those lines — this is what traces the rose pattern.
+    
+- Repeat for different planet pairs to see how the orbital period ratio changes the number of “petals” and the overall symmetry.
+    
+
+For more detail, see the **Methodology** and **Technical Notes** sections in the Quarto document.
+
+---
+
+## Credits
+
+- Quarto template: **lumo** by [Yan Holtz](https://www.yan-holtz.com).
+    
+- Particle header icons: rose images from [Symbolikon](https://symbolikon.com/).
+    
+---
+
+## Contributing
+
+This repo is primarily my personal archive. If you spot a bug, feel free to
+open an issue or pull request.
+
+---
+
+## 📧 Contact
+
+I’m Golapri Rose (Pritika) Dasgupta. You can find me on
+[Substack](https://drrosedasgupta.substack.com),
+[GitHub](https://github.com/pritikadasgupta)
